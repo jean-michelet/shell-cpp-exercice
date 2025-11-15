@@ -68,7 +68,6 @@ static void exec_external(const std::string &path,
         std::vector<char *> argv;
         argv.reserve(args.size() + 2);
 
-        argv.push_back(const_cast<char*>(args[0].c_str()));
         for (auto &s : args)
         {
             argv.push_back(const_cast<char *>(s.c_str()));
