@@ -1,6 +1,8 @@
 #include "cmd.hpp"
 #include <unordered_map>
 #include <iostream>
+#include <unistd.h>
+#include <sys/wait.h>
 
 #include "../cmd/echo.hpp"
 #include "../cmd/exit.hpp"
@@ -46,13 +48,43 @@ const Cmd *find_cmd(const std::string &name)
     return &pos->second;
 }
 
-static void exec_external(const std::string path,
-                          const std::vector<std::string> args)
+static void exec_external(const std::string &path,
+                          const std::vector<std::string> &args)
 {
     if (args.empty())
     {
         return;
     }
 
-    std::cout << "TODO: exec cmd\n";
+    pid_t pid = fork();
+    if (pid < 0)
+    {
+        perror("fork");
+        return;
+    }
+
+    if (pid == 0)
+    {
+        std::vector<char *> argv;
+        argv.reserve(args.size() + 2);
+
+        argv.push_back(const_cast<char *>(path.c_str()));
+
+        for (auto &s : args)
+        {
+            argv.push_back(const_cast<char *>(s.c_str()));
+        }
+
+        argv.push_back(nullptr);
+
+        execv(path.c_str(), argv.data());
+
+        perror("execv");
+
+        _exit(127);
+    }
+
+    int status;
+
+    waitpid(pid, &status, 0);
 }

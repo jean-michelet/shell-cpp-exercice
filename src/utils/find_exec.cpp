@@ -10,7 +10,7 @@ constexpr char path_list_sep = ';';
 constexpr char path_list_sep = ':';
 #endif
 
-std::string find_exec(const std::string cmd_name)
+std::string find_exec(const std::string &cmd_name)
 {
     const char *raw = std::getenv("PATH");
     if (!raw)
@@ -29,12 +29,9 @@ std::string find_exec(const std::string cmd_name)
             {
                 std::filesystem::path p = std::filesystem::path(current) / cmd_name;
 
-                if (std::filesystem::exists(p))
+                if (std::filesystem::exists(p) && ::access(p.c_str(), X_OK) == 0)
                 {
-                    if (::access(p.c_str(), X_OK) == 0)
-                    {
-                        return p.string();
-                    }
+                    return p.string();
                 }
             }
             current.clear();

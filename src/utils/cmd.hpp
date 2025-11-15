@@ -13,5 +13,5 @@ struct Cmd
 
 const Cmd *find_cmd(const std::string &name);
 
-static void exec_external(const std::string path,
-                          const std::vector<std::string> args);
+static void exec_external(const std::string &path,
+                          const std::vector<std::string> &args);

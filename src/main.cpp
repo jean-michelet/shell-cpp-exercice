@@ -24,16 +24,12 @@ int main()
     const std::string name = args.front();
 
     const Cmd *cmd = find_cmd(name);
-    if (!cmd || !cmd->is_builtin)
+    if (!cmd)
     {
       std::cout << name << ": command not found\n";
       continue;
     }
 
-    // TODO: handle executables
-    // !cmd->is_builtin
-
     cmd->exec(args);
   }
 }
-
