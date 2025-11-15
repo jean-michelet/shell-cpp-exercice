@@ -70,9 +70,10 @@ static void exec_external(const std::string &path,
 
         argv.push_back(const_cast<char *>(path.c_str()));
 
-        for (auto &s : args)
+        for (size_t i = 1; i < args.size(); ++i)
         {
-            argv.push_back(const_cast<char *>(s.c_str()));
+
+            argv.push_back(const_cast<char *>(args[i].c_str()));
         }
 
         argv.push_back(nullptr);
