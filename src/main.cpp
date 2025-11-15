@@ -1,6 +1,7 @@
 #include <iostream>
 #include "./utils/split_whitespace.hpp"
-#include "./commands/exit.hpp"
+#include "./cmd/exit.hpp"
+#include "./cmd/echo.hpp"
 
 int main()
 {
@@ -22,9 +23,13 @@ int main()
     auto args = split_whitespace(command);
     const std::string name = args[0];
 
-    if (name == "exit")
+
+    if (name == "echo")
     {
-      exit(args);
+      cmd_echo(args);
+    } else if (name == "exit")
+    {
+      cmd_exit(args);
     }
     else
     {
