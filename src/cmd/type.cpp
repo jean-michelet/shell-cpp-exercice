@@ -1,5 +1,5 @@
 #include "./type.hpp"
-#include "./cmd.hpp"
+#include "../utils/cmd.hpp"
 #include "../utils/args.hpp"
 #include <iostream>
 
@@ -11,12 +11,17 @@ void cmd_type(const std::vector<std::string>& args)
     const std::string cmd_name = args.at(1);
 
     const Cmd *cmd = find_cmd(cmd_name);
-    if (!cmd || !cmd->is_builtin)
+    if (!cmd)
     {
       std::cout << cmd_name << ": not found\n";
       return;
     }
 
-    std::cout << cmd_name << " is a shell builtin\n";
+    if (cmd->is_builtin) {
+      std::cout << cmd_name << " is a shell builtin\n";
+    } else {
+      std::cout << cmd_name << " is " << cmd->full_path << std::endl;
+    }
+
 }
 

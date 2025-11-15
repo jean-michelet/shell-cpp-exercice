@@ -1,7 +1,7 @@
 #include <iostream>
 #include "./utils/split_whitespace.hpp"
 #include "./cmd/type.hpp"
-#include "./cmd/cmd.hpp"
+#include "./utils/cmd.hpp"
 
 int main()
 {
