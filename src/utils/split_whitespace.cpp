@@ -6,7 +6,7 @@ std::vector<std::string> split_whitespace(const std::string& s) {
     std::vector<std::string> result;
     std::string word;
 
-    while (stream >> word) {   // automatically splits on any whitespace
+    while (stream >> word) {
         result.push_back(word);
     }
 
