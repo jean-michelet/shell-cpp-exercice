@@ -1,7 +1,7 @@
 #include <iostream>
 #include "./utils/split_whitespace.hpp"
-#include "./cmd/exit.hpp"
-#include "./cmd/echo.hpp"
+#include "./cmd/type.hpp"
+#include "./cmd/cmd.hpp"
 
 int main()
 {
@@ -15,25 +15,25 @@ int main()
     std::string command;
     std::getline(std::cin, command);
 
-    if (command.length() == 0)
+    if (command.empty())
     {
       continue;
     }
 
     auto args = split_whitespace(command);
-    const std::string name = args[0];
+    const std::string name = args.front();
 
+    const Cmd *cmd = find_cmd(name);
+    if (!cmd || !cmd->is_builtin)
+    {
+      std::cout << name << ": command not found\n";
+      continue;
+    }
 
-    if (name == "echo")
-    {
-      cmd_echo(args);
-    } else if (name == "exit")
-    {
-      cmd_exit(args);
-    }
-    else
-    {
-      std::cout << args[0] << ": command not found" << std::endl;
-    }
+    // TODO: handle executables
+    // !cmd->is_builtin
+
+    cmd->exec(args);
   }
 }
+
